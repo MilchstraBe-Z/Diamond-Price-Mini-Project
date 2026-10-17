@@ -1,0 +1,24 @@
+# Only what the Dockerfile copies is needed; keep everything else out of the build context.
+.git
+.github
+.venv
+venv
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+.ruff_cache
+*.egg-info
+build
+dist
+
+notebooks
+tests
+scripts
+docs
+
+# Full dataset (2.7 MB): the image ships only data/sample.csv
+diamonds.csv
+data/diamonds.csv
+
+report.json
+.env

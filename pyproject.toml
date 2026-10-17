@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diamond-price"
+version = "0.1.0"
+description = "Diamond price prediction: cleaning, ordinal features and a random forest, as a CLI."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "seaborn>=0.13",
+]
+
+[project.scripts]
+diamonds = "diamonds.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# The original group notebook is kept as it was handed in, not linted.
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
