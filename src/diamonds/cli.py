@@ -8,8 +8,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from diamonds.data import clean, load_data
-from diamonds.features import encode_ordinal
+from diamonds.data import clean, load_data, encode_ordinal
 from diamonds.model import evaluate, feature_importances, split, train_baseline, train_forest
 
 TOP_FEATURES = 5
@@ -36,7 +35,6 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def run_training(csv_path: Path | None) -> dict:
-    """Run the whole pipeline and return the report as a plain dict."""
     raw = load_data(csv_path)
     cleaned, removed = clean(raw)
     X_train, X_test, y_train, y_test = split(encode_ordinal(cleaned))

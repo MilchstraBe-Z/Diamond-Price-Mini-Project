@@ -24,17 +24,20 @@ dev = [
     "ruff>=0.6",
 ]
 
+# Project files location
 [tool.setuptools.packages.find]
 where = ["src"]
 
+# Test files location
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
+# Ruff formatting
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-# The original group notebook is kept as it was handed in, not linted.
-extend-exclude = ["notebooks"]
+extend-exclude = ["notebooks"]   # Original notebook
 
+# Ruff Lint rules
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

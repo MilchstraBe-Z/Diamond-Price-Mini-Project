@@ -1,26 +1,20 @@
-name: CI
+name: CI Push/Pull
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
-# The workflow only reads the repo; it never needs write access.
 permissions:
   contents: read
-
-# A new push to the same branch or PR cancels the run that is still going.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   test:
     name: Lint and test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: false   # If one Python version fails, let the other finish.
       matrix:
         python-version: ["3.11", "3.12"]
     steps:
@@ -46,7 +40,7 @@ jobs:
 
   docker:
     name: Docker build and smoke test
-    needs: test  # no point building an image from code that fails its tests
+    needs: test  
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -56,5 +50,5 @@ jobs:
 
       - name: Run image
         run: |
-          docker run --rm diamond-price | tee output.txt
+          docker run --rm diamond-price | tee output.txt 
           grep -q "forest" output.txt
