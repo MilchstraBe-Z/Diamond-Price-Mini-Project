@@ -5,6 +5,7 @@ import pytest
 
 from diamonds.data import load_data
 
+# Absoulte sample path
 SAMPLE_CSV = Path(__file__).resolve().parent.parent / "data" / "sample.csv"
 
 
@@ -15,5 +16,4 @@ def sample_csv() -> Path:
 
 @pytest.fixture
 def raw_sample() -> pd.DataFrame:
-    """The 200-row sample, including its deliberate bad rows."""
     return load_data(SAMPLE_CSV)
