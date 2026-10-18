@@ -57,7 +57,7 @@ def feature_importances(forest: RandomForestRegressor) -> dict[str, float]:
     Return the forest's feature importances, largest first.
     """
     pairs = zip(forest.feature_names_in_, forest.feature_importances_, strict=True)
-    
+
     sorted_pairs = sorted(pairs, key=lambda pair: pair[1], reverse=True)
 
     result = {}

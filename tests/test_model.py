@@ -22,5 +22,3 @@ def test_forest_beats_baseline(splits):
     baseline = evaluate(train_baseline(X_train, y_train), X_test, y_test)
     forest = evaluate(train_forest(X_train, y_train), X_test, y_test)
     assert forest["mae"] < baseline["mae"]
-
-

@@ -31,10 +31,10 @@ def load_data(csv_path: str | Path | None = None) -> pd.DataFrame:
     Load the diamonds data from a local CSV, or from seaborn when no path is given.
     """
     if csv_path is not None and not isinstance(csv_path, (str, Path)):
-        raise TypeError("csv_path must be a string, Path, or None") 
-    
+        raise TypeError("csv_path must be a string, Path, or None")
+
     if csv_path is None:
-        import seaborn as sns 
+        import seaborn as sns
 
         df = sns.load_dataset("diamonds")
     else:
@@ -50,7 +50,7 @@ def load_data(csv_path: str | Path | None = None) -> pd.DataFrame:
 
     df = df[REQUIRED_COLUMNS].copy()
     # loading can produce diff dataType
-    for col in CATEGORICAL_COLUMNS: 
+    for col in CATEGORICAL_COLUMNS:
         df[col] = df[col].astype(str)
     for col in NUMERIC_COLUMNS:
         df[col] = pd.to_numeric(df[col])
@@ -90,4 +90,3 @@ def encode_ordinal(df: pd.DataFrame) -> pd.DataFrame:
             raise ValueError(f"Unknown {col} value(s) {unknown}; expected one of {levels}")
         out[col] = out[col].astype(str).map(codes).astype("int64")
     return out
-

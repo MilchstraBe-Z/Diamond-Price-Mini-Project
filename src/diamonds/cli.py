@@ -8,7 +8,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from diamonds.data import clean, load_data, encode_ordinal
+from diamonds.data import clean, encode_ordinal, load_data
 from diamonds.model import evaluate, feature_importances, split, train_baseline, train_forest
 
 TOP_FEATURES = 5
