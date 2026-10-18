@@ -1,8 +1,7 @@
-import pytest
 import pandas as pd
+import pytest
 
-from diamonds.data import DIMENSION_COLUMNS, MAX_DIMENSION_MM, clean, load_data
-from diamonds.data import CLARITY_ORDER, COLOR_ORDER, CUT_ORDER, encode_ordinal
+from diamonds.data import DIMENSION_COLUMNS, MAX_DIMENSION_MM, clean, encode_ordinal, load_data
 
 
 def test_load_data_rejects_missing_column(tmp_path, raw_sample):
@@ -39,7 +38,7 @@ def test_clean_does_not_modify_input(raw_sample):
     assert raw_sample.equals(before)
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 def make_frame(cut, color, clarity) -> pd.DataFrame:
