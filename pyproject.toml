@@ -32,7 +32,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # Keep disposable test files in the project instead of the Windows temp directory.
-addopts = "--basetemp=.pytest_cache/pytest-temp"
+addopts = "--basetemp=.pytest-tmp"
 
 # Ruff formatting
 [tool.ruff]
