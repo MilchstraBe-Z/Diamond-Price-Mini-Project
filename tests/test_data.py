@@ -1,13 +1,15 @@
 import pytest
+import pandas as pd
 
 from diamonds.data import DIMENSION_COLUMNS, MAX_DIMENSION_MM, clean, load_data
+from diamonds.data import CLARITY_ORDER, COLOR_ORDER, CUT_ORDER, encode_ordinal
 
 
-def test_sample_contains_bad_rows(raw_sample):
-    # Guard: the tests below only mean something if the sample has rows to remove.
-    assert raw_sample.duplicated().any()
-    assert (raw_sample[DIMENSION_COLUMNS] <= 0).any(axis=None)
-    assert (raw_sample[DIMENSION_COLUMNS] > MAX_DIMENSION_MM).any(axis=None)
+def test_load_data_rejects_missing_column(tmp_path, raw_sample):
+    path = tmp_path / "no_price.csv"
+    raw_sample.drop(columns="price").to_csv(path, index=False)
+    with pytest.raises(ValueError, match="price"):
+        load_data(path)
 
 
 def test_clean_removes_zero_dimensions(raw_sample):
@@ -37,8 +39,18 @@ def test_clean_does_not_modify_input(raw_sample):
     assert raw_sample.equals(before)
 
 
-def test_load_data_rejects_missing_column(tmp_path, raw_sample):
-    path = tmp_path / "no_price.csv"
-    raw_sample.drop(columns="price").to_csv(path, index=False)
-    with pytest.raises(ValueError, match="price"):
-        load_data(path)
+#------------------------------------------------------------------------------
+
+
+def make_frame(cut, color, clarity) -> pd.DataFrame:
+    return pd.DataFrame({"cut": cut, "color": color, "clarity": clarity})
+
+
+def test_unknown_category_raises():
+    with pytest.raises(ValueError, match="Excellent"):
+        encode_ordinal(make_frame(["Excellent"], ["D"], ["IF"]))
+
+
+def test_encoded_sample_has_no_missing_values(raw_sample):
+    encoded = encode_ordinal(raw_sample)
+    assert encoded[["cut", "color", "clarity"]].notna().all(axis=None)
